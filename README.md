@@ -1,2 +1,3 @@
 # PruebaHotelinking
-Prueba para Hotelinking
+
+##Funcionamiento:
