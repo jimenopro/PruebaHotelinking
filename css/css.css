@@ -1,0 +1,54 @@
+body{
+    background:linear-gradient(to right, #8d8d8d, #d6d6d6, #8d8d8d)!important;
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+#login {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+}
+
+#registro{
+    
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+
+}
+
+.boton{
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    margin-top:10%;
+}
+
+#bt1{
+    text-align:center;
+    padding-top:10%;
+}
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 16px;
+    padding-top:5%;
+    max-width: 60%;
+    text-align: left !important;
+}
