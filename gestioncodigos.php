@@ -1,18 +1,18 @@
 <?php
-//Archivo de gestión de los códigos
 
+//Archivo de gestión de los códigos
 //SWITCH en el cual se mira qué acción se ha de tomar con la petición recibida
 
 switch ($_POST['accion']) {
 
     //caso recibir código:
-    //si la cookie está creada, se manda el nombre de usuario al método crearNuevoCodigo()
+    //si la SESSION está creada, se manda el nombre de usuario al método crearNuevoCodigo()
     //el metodo devuelve el resultado de la consulta SQL, justo después se envía el código de la
     //ventana que mostrará el número de código
     case 'recibir':
-
-        if (isset($_COOKIE['login_user'])) {
-            $fila = crearNuevoCodigo($_COOKIE['login_user']);
+        session_start();
+        if (isset($_SESSION['login_user'])) {
+            $fila = crearNuevoCodigo($_SESSION['login_user']);
             echo "<div class='modal-dialog modal-sm'>
       <div class='modal-content'>
         <div class='modal-header'>
@@ -29,15 +29,15 @@ switch ($_POST['accion']) {
         }
 
         break;
-        
-        //caso mostrar códigos:
-        // si la cookie del nombre de usuario está creada, se mandará al método mostrarMisCódigos(),
-        // devuelve el resultado de la consulta, el cual se recorre y se va añadiendo al div "contenido"
-        // se van añadiendo los códigos con un botón para canjearlos
-    case 'mostrar':
 
-        if (isset($_COOKIE['login_user'])) {
-            $filas = mostrarMisCódigos($_COOKIE['login_user']);
+    //caso mostrar códigos:
+    // si la SESSION del nombre de usuario está creada, se mandará al método mostrarMisCódigos(),
+    // devuelve el resultado de la consulta, el cual se recorre y se va añadiendo al div "contenido"
+    // se van añadiendo los códigos con un botón para canjearlos
+    case 'mostrar':
+        session_start();
+        if (isset($_SESSION['login_user'])) {
+            $filas = mostrarMisCódigos($_SESSION['login_user']);
             while ($fila = $filas->fetch_assoc()) {
                 if ($fila['canjeado'] == 0) {
                     echo "<div class='modal-dialog modal-sm'>
@@ -68,8 +68,8 @@ switch ($_POST['accion']) {
         }
 
         break;
-        //caso 'canjear', se canjea el código según su ID en el método canjear()
-        //se recibe por petición ajax la ID
+    //caso 'canjear', se canjea el código según su ID en el método canjear()
+    //se recibe por petición ajax la ID
     case 'canjear':
         $id = $_POST['id'];
         if (canjear($id)) {
@@ -77,7 +77,11 @@ switch ($_POST['accion']) {
         } else {
             die(header("HTTP/1.0 404 Not Found"));
         }
+        
+    default:
+        echo "Petición de acción no válida.";
 }
+
 //se conecta a BDD, y se Crea un nuevo código según el nombre de usuario, 
 //acto seguido se hace una consulta para obtener el código y se devuelve con return.
 function crearNuevoCodigo($name) {
@@ -97,6 +101,7 @@ function crearNuevoCodigo($name) {
         return null;
     }
 }
+
 //método para conectar a base de datos, devuelve la conexión.
 function conectarBDD() {
     $db_host = "localhost";
@@ -107,6 +112,7 @@ function conectarBDD() {
 
     return $conexion;
 }
+
 //método para consultar a base de datos que devuelve los códigos del usuario introducido
 //por parámetro
 function mostrarMisCódigos($name) {
@@ -117,6 +123,7 @@ function mostrarMisCódigos($name) {
     mysqli_close($conexion);
     return $result;
 }
+
 //método para canjear el código, se hace un update del campo BOOLEAN "canjeado"
 function canjear($id) {
     $conexion = conectarBDD();

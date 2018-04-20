@@ -2,16 +2,17 @@
 <html>
     
     <?php
-    if (!(isset($_COOKIE['login_user']) and isset($_COOKIE['login_pass']))) {
+    session_start();
+    if (empty($_SESSION["login_user"]) and empty($_SESSION["login_pass"])) {
         header('Location: index.php');
     }
     ?>
     <head>
         <title>Principal</title>
-        <link rel="stylesheet" type="text/css" href="css/css.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/js.js"></script>
+        <script type="text/javascript" src="js/javascript.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
